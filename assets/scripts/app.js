@@ -34,6 +34,10 @@ function calculateResult(calculationType) {
   const initialResult = currentResult;
   let mathOperator;
 
+  if (!enteredNumber) {
+    return
+  }
+
   switch (calculationType) {
     case 'ADD':
       currentResult += enteredNumber;
@@ -52,7 +56,7 @@ function calculateResult(calculationType) {
       mathOperator = '/'
       break;
     default:
-      break;
+      return;
   }
   
   createAndWriteOutput("+", initialResult, enteredNumber);
