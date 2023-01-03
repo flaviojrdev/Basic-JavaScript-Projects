@@ -5,18 +5,18 @@ const MONSTER_ATTACK_VALUE = 14;
 const HEAL_VALUE = 20;
 
 // GLOBAL MODE CONSTANTS
-const MODE_ATTACK = 'ATTACK';
-const MODE_STRONG_ATTACK = 'STRONG_ATTACK';
+const MODE_ATTACK = "ATTACK";
+const MODE_STRONG_ATTACK = "STRONG_ATTACK";
 
 // LOG EVENTS CONSTANTS
-const LOG_EVENT_PLAYER_ATTACK = 'PLAYER_ATTACK';
-const LOG_EVENT_PLAYER_STRONG_ATTACK = 'PLAYER_STRONG_ATTACK';
-const LOG_EVENT_MONSTER_ATTACK = 'MONSTER_ATTACK';
-const LOG_EVENT_PLAYER_HEAL = 'PLAYER_HEAL';
-const LOG_EVENT_GAME_OVER = 'GAME_OVER';
+const LOG_EVENT_PLAYER_ATTACK = "PLAYER_ATTACK";
+const LOG_EVENT_PLAYER_STRONG_ATTACK = "PLAYER_STRONG_ATTACK";
+const LOG_EVENT_MONSTER_ATTACK = "MONSTER_ATTACK";
+const LOG_EVENT_PLAYER_HEAL = "PLAYER_HEAL";
+const LOG_EVENT_GAME_OVER = "GAME_OVER";
 
 // INITIAL GAME VALUES
-const ENTERED_VALUE = prompt('Maximum life for you and the monster', '100');
+const ENTERED_VALUE = prompt("Maximum life for you and the monster", "100");
 let chosenMaxLife = parseInt(ENTERED_VALUE);
 
 if (isNaN(chosenMaxLife || chosenMaxLife <= 0)) {
@@ -35,17 +35,17 @@ function writeToLog(event, value, monsterHealth, playerHealth) {
     event: event,
     value: value,
     finalMonsterHealth: monsterHealth,
-    finalPlayerHealth: playerHealth
+    finalPlayerHealth: playerHealth,
   };
 
   if (event === LOG_EVENT_PLAYER_ATTACK) {
-    logEntry.target = 'MONSTER';
+    logEntry.target = "MONSTER";
   } else if (event === LOG_EVENT_PLAYER_STRONG_ATTACK) {
-    logEntry.target = 'MONSTER';
+    logEntry.target = "MONSTER";
   } else if (event === LOG_EVENT_MONSTER_ATTACK) {
-    logEntry.target = 'PLAYER';
+    logEntry.target = "PLAYER";
   } else if (LOG_EVENT_PLAYER_HEAL) {
-    logEntry.target = 'PLAYER';
+    logEntry.target = "PLAYER";
   }
 
   battleLog.push(logEntry);
@@ -109,16 +109,11 @@ function endRound() {
 }
 
 function attackMonster(mode) {
-  let maxDamage;
-  let logEvent;
-
-  if (mode === MODE_ATTACK) {
-    maxDamage = ATTACK_VALUE;
-    logEvent = LOG_EVENT_PLAYER_ATTACK;
-  } else if (mode === MODE_STRONG_ATTACK) {
-    maxDamage = STRONG_ATTACK_VALUE;
-    logEvent = LOG_EVENT_PLAYER_STRONG_ATTACK;
-  }
+  const maxDamage = mode === MODE_ATTACK ? ATTACK_VALUE : STRONG_ATTACK_VALUE;
+  const logEvent =
+    mode === MODE_ATTACK
+      ? LOG_EVENT_PLAYER_ATTACK
+      : LOG_EVENT_PLAYER_STRONG_ATTACK;
 
   const damageMonster = dealMonsterDamage(maxDamage);
   currentMonsterHealth -= damageMonster;
