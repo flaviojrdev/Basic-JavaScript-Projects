@@ -33,19 +33,26 @@ adjustHealthBars(chosenMaxLife);
 function writeToLog(event, value, monsterHealth, playerHealth) {
   let logEntry = {
     event: event,
-    value: value,
-    finalMonsterHealth: monsterHealth,
-    finalPlayerHealth: playerHealth,
+    value: value.toFixed(2),
+    finalMonsterHealth: monsterHealth.toFixed(2),
+    finalPlayerHealth: playerHealth.toFixed(2),
   };
 
-  if (event === LOG_EVENT_PLAYER_ATTACK) {
-    logEntry.target = "MONSTER";
-  } else if (event === LOG_EVENT_PLAYER_STRONG_ATTACK) {
-    logEntry.target = "MONSTER";
-  } else if (event === LOG_EVENT_MONSTER_ATTACK) {
-    logEntry.target = "PLAYER";
-  } else if (LOG_EVENT_PLAYER_HEAL) {
-    logEntry.target = "PLAYER";
+  switch(event) {
+    case LOG_EVENT_PLAYER_ATTACK:
+      logEntry.target = "MONSTER";
+      break;
+    case LOG_EVENT_PLAYER_STRONG_ATTACK:
+      logEntry.target = "MONSTER";
+      break;
+    case LOG_EVENT_MONSTER_ATTACK:
+      logEntry.target = "PLAYER";
+      break;
+    case LOG_EVENT_PLAYER_HEAL:
+      logEntry.target = "PLAYER";
+      break;
+    default:
+      logEntry = {};
   }
 
   battleLog.push(logEntry);
@@ -156,8 +163,15 @@ function healPlayerHandler() {
   endRound();
 }
 
+let i = 0;
 function printLogHandler() {
-  console.log(battleLog);
+  for (const log of battleLog) {
+    console.log(`#${i}`);
+    for (const key in log) {
+      console.log(`${key} => ${log[key]}`);
+    }
+    i++;
+  }
 }
 
 attackBtn.addEventListener("click", attackHandler);
